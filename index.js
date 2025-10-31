@@ -1,9 +1,9 @@
 /* let a = 10; */
 let b = 20;
 
-a += 1;
+/* a += 1; */
 
-console.log(a);
+/* console.log(a); */
 
 const res = 10 < 20 && 10 == 10;
 console.log(res);
@@ -114,3 +114,58 @@ function division(d) {
     return inner(d);
 }
 console.log(division(2)); // 출력 값은? -> 2
+
+function A2() {
+    console.log("A환경");
+}
+function B2(callback, callback2) {
+    setTimeout(() => {
+        console.log("B환경");
+        callback();
+        callback2();
+    }, 0);
+}
+function C2() {
+    console.log("C환경");
+}
+function D2() {
+    console.log("D환경");
+}
+
+A2();
+B2(C2, D2);
+console.log("after");
+
+function count(n, callback) {
+    setTimeout(() => {
+        let sum = n + 1;
+        console.log(sum);
+        if (callback) {
+            callback(sum);
+        }
+    }, 0);
+}
+
+count(0, (n) => {
+    count(n, function (n) {
+        count(n);
+    });
+});
+
+new Promise(function (resolve, reject) {
+    // 비동기 로직
+    // 1. 대기(pending) : promise코드가 본격적으로 시작되기 전 상태
+    console.log("시작함");
+    // 2. 이행(fulfilled) :
+    /* resolve("코드 성공"); */
+    // 3. 거절(rejected) : resolve가 있으면 실행안됨
+    reject(new Error("데이터를 불러오지 못했습니다."));
+})
+    .then((res) => {
+        //resolve에서 매개변수를 받을수 있다.
+        console.log(res);
+    })
+    .catch((err) => {
+        //reject 에서 매개변수 받을수있따.
+        console.log(err);
+    });
